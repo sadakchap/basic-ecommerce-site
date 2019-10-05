@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+  Checkout
+{% endblock %}
+{% block content %}
+  <div class="jumbotron jumbotron-fluid ">
+    <div class="container">
+      <h2>Checkout</h2>
+      <div class="row">
+        <div class="col">
+          <form method="post">
+            {% csrf_token %}
+            {{form|crispy }}
+            <input type="submit" class="btn btn-info" value="Place Order">
+          </form>
+        </div>
+        <div class="col ">
+          <div class="p-3 border-bottom border-info">
+            <h4>Your Order :</h4>
+            <ul>
+              {% for c in cart %}
+              <li>{{c.quantity}} x<a href="{{c.product.get_absolute_url}}"> {{c.product.name}}</a> <span class="float-right text-info">${{c.total_price}}</span></li>
+              {% endfor %}
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

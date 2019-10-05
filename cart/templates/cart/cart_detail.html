@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Cart|details
+{% endblock %}
+{% block content %}
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h2 class="display-4 mb-4">Your Cart :</h2>
+      <table class="table table-striped text-center table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Remove</th>
+            <th scope="col">Unit Price</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+            {% with p=item.product %}
+              <tr scope="row">
+                <td>
+                  <a href="{{ p.get_absolute_url }}">
+                    <img src="{% if p.image %}{{p.image.url}}{% else %}{% static 'no_image.jpeg' %}{%endif%}" width="100px" height="100px">
+                  </a>
+                </td>
+                <td class="text-capitalize font-weight-bold">{{p.name}}</td>
+                <td>
+                  <form class="" action="{% url 'cart:cart_add' p.id %}" method="post">
+                    {% csrf_token %}
+                    {{item.update_quantity_form.quantity}}
+                    {{item.update_quantity_form.update}}
+                    <input type="submit" class="btn btn-info" value="Update">
+                  </form>
+                </td>
+                <td><a href="{% url 'cart:cart_remove' p.id %}" class="text-danger font-weight-bold">Remove</a></td>
+                <td>${{item.price}}</td>
+                <td class="font-weight-bold">${{item.total_price}}</td>
+              </tr>
+            {% endwith %}
+          {% endfor %}
+          <tr class="bg-info" scope="row">
+            <td class="font-weight-bold">Total:</td>
+            <td colspan="4"></td>
+            <td class="font-weight-bold">${{cart.get_total_price}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-4">
+        <p class="text-right">
+          <a href="{% url 'shop:product_list' %}" class="btn btn-warning">Continue Shopping</a>
+          <a href="{% url 'orders:order_create' %}" class="btn btn-success">Checkout</a>
+        </p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

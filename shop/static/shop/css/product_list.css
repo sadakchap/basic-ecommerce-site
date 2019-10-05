@@ -1,0 +1,24 @@
+.category-list
+{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul.category-list li a
+{
+  display: block;
+  padding: 10px 1px;
+  text-align: center;
+  text-decoration: none;
+  margin: 2px auto;
+}
+ul.category-list li a:hover
+{
+  background: #171717;
+  color: #fff;
+}
+.selected
+{
+  background: #aae;
+  color: #fff;
+}
